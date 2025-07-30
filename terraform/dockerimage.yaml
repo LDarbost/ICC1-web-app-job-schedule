@@ -3,26 +3,26 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'sh'
     args:
-    - "-c"
-    - |
-      TAG_NAME=${TAG_NAME:-$COMMIT_SHA}
-      docker build -t ${_APPREGISTRYPATH}/{_IMAGE_NAME}:${TAG_NAME} -t ${_APPREGISTRYPATH}/{_IMAGE_NAME}:latest -f ./Dockerfile ./
+      - "-c"
+      - |
+        TAG_NAME=${TAG_NAME:-$COMMIT_SHA}
+        docker build -t ${_APPREGISTRYPATH}/${_IMAGE_NAME}:${TAG_NAME} -t ${_APPREGISTRYPATH}/${_IMAGE_NAME}:latest -f ./Dockerfile ./
     env:
-    - 'DOCKER_BUILDKIT=1'
+      - 'DOCKER_BUILDKIT=1'
   - id: push docker image
     name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'sh'
     args:
-    - "-c"
-    - |
-      TAG_NAME=${TAG_NAME:-$COMMIT_SHA}
-      docker push ${_APPREGISTRYPATH}/{_IMAGE_NAME}:${TAG_NAME}
-      docker push ${_APPREGISTRYPATH}/{_IMAGE_NAME}:latest
-    - waitFor:
+      - "-c"
+      - |
+        TAG_NAME=${TAG_NAME:-$COMMIT_SHA}
+        docker push ${_APPREGISTRYPATH}/${_IMAGE_NAME}:${TAG_NAME}
+        docker push ${_APPREGISTRYPATH}/${_IMAGE_NAME}:latest
+    waitFor:
       - build app from dockerfile
 images:
-  - '${_APPREGISTRYPATH}/{_IMAGE_NAME}:${TAG_NAME}'
-  - '${_APPREGISTRYPATH}/{_IMAGE_NAME}:latest'
+  - '${_APPREGISTRYPATH}/${_IMAGE_NAME}:${TAG_NAME}'
+  - '${_APPREGISTRYPATH}/${_IMAGE_NAME}:latest'
 options:
   logging: CLOUD_LOGGING_ONLY
 
