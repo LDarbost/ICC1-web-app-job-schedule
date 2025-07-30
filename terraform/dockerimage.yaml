@@ -27,5 +27,5 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 substitutions:
-  _APPREGISTRYPATH: "europe-west2-docker.pkg.dev/hazel-sky-467411-j9/britedge"
+  _APPREGISTRYPATH: "europe-west1-docker.pkg.dev/hazel-sky-467411-j9/britedge-e1"
   _IMAGE_NAME: "britedge-run"
