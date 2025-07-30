@@ -5,7 +5,7 @@ steps:
     args:
       - "-c"
       - |
-        TAG_NAME=${TAG_NAME:-$COMMIT_SHA}
+        TAG_NAME=${TAG_NAME:-${COMMIT_SHA:-latest}}
         docker build -t ${_APPREGISTRYPATH}/${_IMAGE_NAME}:${TAG_NAME} -t ${_APPREGISTRYPATH}/${_IMAGE_NAME}:latest -f ./Dockerfile ./
     env:
       - 'DOCKER_BUILDKIT=1'
