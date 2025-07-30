@@ -27,6 +27,5 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 substitutions:
-  _APPREGISTRYPATH: 'gcr.io/${PROJECT_ID}/britedge-app
-  _IMAGE_NAME: 'britedge-app'
-  
+  _APPREGISTRYPATH: "europe-west2-docker.pkg.dev/hazel-sky-467411-j9/britedge"
+  _IMAGE_NAME: "britedge-run"
