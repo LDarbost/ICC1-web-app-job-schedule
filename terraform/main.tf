@@ -1,16 +1,9 @@
-module "cloud_run_service" {
-  source     = "./cloud-run"
-  project_id = var.project_id
-  cloud_build_trigger = {
-
-  }
-}
-
 resource "google_cloudbuild_trigger" "cloud_run_pr_trigger" {
   name        = "cloud-run-pr-trigger"
   description = "Trigger for Cloud Run plan on pull request"
   location = var.region
-
+  project = var.project_id
+  service_account = var.buildsaname
   github {
     owner = var.github_owner
     name  = var.repo_name
@@ -31,7 +24,9 @@ resource "google_cloudbuild_trigger" "cloud_run_push_trigger" {
   name        = "cloud-run-push-trigger"
   description = "Trigger for Cloud Run apply on push request"
   location = var.region
-
+  project = var.project_id
+  service_account = var.buildsaname
+  
   github {
     owner = var.github_owner
     name  = var.repo_name
@@ -52,6 +47,8 @@ resource "google_cloudbuild_trigger" "docker-tag-build" {
   name        = "docker-tag-build"
   description = "Trigger for tag based build for docker image"
   location = var.region
+  project = var.project_id
+  service_account = var.buildsaname
 
   github {
     owner = var.github_owner
