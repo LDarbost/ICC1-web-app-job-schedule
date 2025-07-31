@@ -63,7 +63,7 @@ resource "google_cloudbuild_trigger" "docker-tag-build" {
 
   substitutions = {
     _APPLY      = "Y"
-    _APPREGISTRYPATH: "europe-west1-docker.pkg.dev/hazel-sky-467411-j9/britedge-e1"
-    _IMAGE_NAME: "britedge-run"
+    _APPREGISTRYPATH = "europe-west1-docker.pkg.dev/hazel-sky-467411-j9/britedge-e1"
+    _IMAGE_NAME = "britedge-run"
   }
 }
