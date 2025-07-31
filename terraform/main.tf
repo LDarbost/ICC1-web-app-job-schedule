@@ -1,7 +1,7 @@
 resource "google_cloudbuild_trigger" "cloud_run_pr_trigger" {
   name        = "cloud-run-pr-trigger"
   description = "Trigger for Cloud Run plan on pull request"
-  location = var.region
+  location = "europe-west1"
   project = var.project_id
   service_account = var.buildsaname
   github {
@@ -23,7 +23,7 @@ resource "google_cloudbuild_trigger" "cloud_run_pr_trigger" {
 resource "google_cloudbuild_trigger" "cloud_run_push_trigger" {
   name        = "cloud-run-push-trigger"
   description = "Trigger for Cloud Run apply on push request"
-  location = var.region
+  location = "europe-west1"
   project = var.project_id
   service_account = var.buildsaname
   
@@ -46,7 +46,7 @@ resource "google_cloudbuild_trigger" "cloud_run_push_trigger" {
 resource "google_cloudbuild_trigger" "docker-tag-build" {
   name        = "docker-tag-build"
   description = "Trigger for tag based build for docker image"
-  location = var.region
+  location = "europe-west1"
   project = var.project_id
   service_account = var.buildsaname
 
