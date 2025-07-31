@@ -1,0 +1,5 @@
+github_owner = "LDarbost"
+repo_name = "ICC1-web-app-job-schedule"
+project_id = "hazel-sky-467411-j9"
+region = "europe-west1"
+buildsaname = "cloudbuild@hazel-sky-467411-j9.iam.gserviceaccount.com"
