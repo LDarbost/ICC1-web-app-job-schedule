@@ -1,5 +1,5 @@
 # GitHub Connection for 2nd Gen Repository
-resource "google_cloudbuild_v2_connection" "github_connection" {
+resource "google_cloudbuildv2_connection" "github_connection" {
   project  = var.project_id
   location = var.region
   name     = "github-connection"
@@ -13,7 +13,7 @@ resource "google_cloudbuild_v2_connection" "github_connection" {
 }
 
 # Repository resource
-resource "google_cloudbuild_v2_repository" "repo" {
+resource "google_cloudbuildv2_repository" "repo" {
   project           = var.project_id
   location          = var.region
   name              = var.repo_name
