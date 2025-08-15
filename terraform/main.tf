@@ -94,3 +94,39 @@ resource "google_cloudbuild_trigger" "docker_tag_build" {
     _IMAGE_NAME      = "britedge-run"
   }
 }
+
+resource "google_cloud_run_service" "britEdge-runService" {
+  name     = "britEdge-runService"
+  location = var.region
+  project  = var.project_id
+
+  template {
+    spec {
+      containers {
+        image = "europe-west1-docker.pkg.dev/${var.project_id}/britedge-e1:${var.dockertag}"
+
+        resources {
+          limits = {
+            memory = "512Mi"
+            cpu    = "1"
+          }
+          requests = {
+            memory = "256Mi"
+            cpu    = "0.5"
+          }
+        }
+
+        ports {
+          container_port = 8080
+        }
+      }
+    }
+  }
+
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+
+  autogenerate_revision_name = true
+}
