@@ -1,6 +1,6 @@
 steps:
   - id: terraform
-    name: 'hashicorp/terraform:latest'
+    name: 'hashicorp/terraform:light'
     entrypoint: 'bash'
     args:
       - "-c"
