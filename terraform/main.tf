@@ -95,8 +95,8 @@ resource "google_cloudbuild_trigger" "docker_tag_build" {
   }
 }
 
-resource "google_cloud_run_service" "britEdge-runService" {
-  name     = "britEdge-runService"
+resource "google_cloud_run_service" "britedge-runservice" {
+  name     = "britedge-runservice"
   location = var.region
   project  = var.project_id
 
