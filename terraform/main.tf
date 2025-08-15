@@ -103,7 +103,7 @@ resource "google_cloud_run_service" "britEdge-runService" {
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/${var.project_id}/britedge-e1:${var.dockertag}"
+        image = "europe-west1-docker.pkg.dev/${var.project_id}/britedge-e1/britedge-run:${var.dockertag}"
 
         resources {
           limits = {
