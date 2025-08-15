@@ -130,3 +130,12 @@ resource "google_cloud_run_service" "britedge-runservice" {
 
   autogenerate_revision_name = true
 }
+
+# Grant public (allUsers) access to Cloud Run service
+resource "google_cloud_run_service_iam_member" "public_invoker" {
+  project        = var.project_id
+  location       = var.region
+  service        = google_cloud_run_service.britedge-runservice.name
+  role           = "roles/run.invoker"
+  member         = "allUsers"
+}
