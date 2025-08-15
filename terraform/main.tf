@@ -17,7 +17,7 @@ resource "google_cloudbuildv2_repository" "repo" {
   project           = var.project_id
   location          = var.region
   name              = var.repo_name
-  parent_connection = google_cloudbuild_v2_connection.github_connection.name
+  parent_connection = google_cloudbuildv2_connection.github_connection.name
   remote_uri        = "https://github.com/${var.github_owner}/${var.repo_name}.git"
 }
 
@@ -31,7 +31,7 @@ resource "google_cloudbuild_trigger" "cloud_run_pr_trigger" {
   service_account = "projects/${var.project_id}/serviceAccounts/${var.buildsaname}"
   
   repository_event_config {
-    repository = google_cloudbuild_v2_repository.repo.id
+    repository = google_cloudbuildv2_repository.repo.id
     
     pull_request {
       branch = "^main$"
@@ -55,7 +55,7 @@ resource "google_cloudbuild_trigger" "cloud_run_push_trigger" {
   service_account = "projects/${var.project_id}/serviceAccounts/${var.buildsaname}"
   
   repository_event_config {
-    repository = google_cloudbuild_v2_repository.repo.id
+    repository = google_cloudbuildv2_repository.repo.id
     
     push {
       branch = "^main$"
@@ -79,7 +79,7 @@ resource "google_cloudbuild_trigger" "docker_tag_build" {
   service_account = "projects/${var.project_id}/serviceAccounts/${var.buildsaname}"
 
   repository_event_config {
-    repository = google_cloudbuild_v2_repository.repo.id
+    repository = google_cloudbuildv2_repository.repo.id
     
     push {
       tag = "^v.*$"
