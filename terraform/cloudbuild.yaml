@@ -5,6 +5,7 @@ steps:
     args:
       - "-c"
       - |
+        chmod +x terraform/terraforminit.sh
         ./terraform/terraforminit.sh "${_APPLY}"
 options:
   logging: CLOUD_LOGGING_ONLY
