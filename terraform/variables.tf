@@ -23,3 +23,20 @@ variable "buildsaname" {
   description = "Service account email used by Cloud Build triggers"
   type        = string
 }
+
+
+variable "github_app_installation_id" {
+  description = "GitHub App Installation ID for Cloud Build connection"
+  type        = number
+}
+
+variable "github_oauth_token_secret" {
+  description = "Secret Manager resource name for GitHub OAuth token (format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION)"
+  type        = string
+}
+
+variable "dockertag" {
+  description = "Docker image version for the Cloud Run service"
+  type        = string
+  default = "latest"
+}
