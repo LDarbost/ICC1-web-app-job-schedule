@@ -5,7 +5,7 @@ steps:
     args:
       - "-c"
       - |
-        ICC1-web-app-job-schedule/terraform/terraforminit.sh "${_APPLY}"
+        ./terraform/terraforminit.sh "${_APPLY}"
 options:
   logging: CLOUD_LOGGING_ONLY
 substitutions:
