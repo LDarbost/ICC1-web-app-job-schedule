@@ -161,3 +161,22 @@ resource "google_vpc_access_connector" "britedge-connector" {
   min_instances   = 2
   max_instances   = 3
 }
+
+# Private Service Access (PSA) for Cloud SQL
+# Specialised VPC peering for Cloud SQL Through VPC + Google-Managed Servcie Producer Network
+
+resource "google_compute_global_address" "private_ip_allocation" {
+  name          = "private-ip-allocation"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.britedge-vpc.id
+  project       = var.project_id
+}
+
+resource "google_service_networking_connection" "private_vpc_connection" {
+  network                 = google_compute_network.britedge-vpc.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_ip_allocation.name]
+  depends_on = [google_compute_subnetwork.britedge-subnet]
+}
