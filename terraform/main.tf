@@ -139,3 +139,23 @@ resource "google_cloud_run_service_iam_member" "public_invoker" {
   role           = "roles/run.invoker"
   member         = "allUsers"
 }
+
+resource "google_compute_network" "britedge-vpc" {
+  name                    = "britedge-vpc"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "britedge-subnet" {
+  name                     = "britedge-subnet"
+  ip_cidr_range            = "10.10.0.0/24"
+  region                   = var.region
+  network                  = google_compute_network.britedge-vpc.id
+  private_ip_google_access = true
+}
+
+resource "google_vpc_access_connector" "britedge-connector" {
+  name          = "britedge-connector"
+  region        = var.region
+  network       = google_compute_network.britedge-vpc.name
+  ip_cidr_range = "10.8.0.0/28"
+}
