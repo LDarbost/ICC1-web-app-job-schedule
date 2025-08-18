@@ -108,7 +108,7 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
       resources {
         limits = {
           memory = "512Mi"
-          cpu    = "1000m" # In V2, CPU is specified in millicores
+          cpu    = "1000m"
         }
       }
 
@@ -116,24 +116,22 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
         container_port = 8080
       }
 
-      # Environment variables for database connection
       env {
         name  = "DB_HOST"
         value = google_sql_database_instance.britedge-sql-instance.private_ip_address
       }
       env {
         name  = "DB_USER"
+        value = google_sql_user.britedge-user.name
+      }
+      env {
+        name = "DB_PASS"
         value_source {
           secret_key_ref {
-            secret = "CloudSQL-user"
+            secret  = "CloudSQL-user"
             version = "1"
           }
         }
-
-      }
-      env {
-        name  = "DB_PASS"
-        value = var.cloudsql_password_secret
       }
       env {
         name  = "DB_NAME"
@@ -146,9 +144,9 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
       egress    = "ALL_TRAFFIC"
     }
   }
-   traffic {
-    percent         = 100
-    type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  traffic {
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
 }
 
