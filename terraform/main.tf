@@ -123,7 +123,12 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
       }
       env {
         name  = "DB_USER"
-        value = google_sql_user.britedge-user.name
+        value_source {
+          secret_key_ref {
+            secret = var.cloudsql_password_secret
+          }
+        }
+
       }
       env {
         name  = "DB_PASS"
