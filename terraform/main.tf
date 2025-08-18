@@ -230,7 +230,6 @@ resource "google_sql_database" "britedge-database" {
 # Fetch the password from Secret Manager at Terraform apply time
 data "google_secret_manager_secret_version" "db_password" {
   secret  = "CloudSQL-user"
-  version = "1"
   project = "488683797782"
 }
 
