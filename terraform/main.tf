@@ -125,7 +125,8 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
         name  = "DB_USER"
         value_source {
           secret_key_ref {
-            secret = var.cloudsql_password_secret
+            secret = "CloudSQL-user"
+            version = "1"
           }
         }
 
