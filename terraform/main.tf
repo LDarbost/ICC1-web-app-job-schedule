@@ -146,10 +146,10 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
 }
 
 # Grant public (allUsers) access to Cloud Run service
-resource "google_cloud_run__v2_service_iam_member" "public_invoker" {
+resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
   project        = var.project_id
   location       = var.region
-  service        = google_cloud_run_v2_service.britedge-runservice.name
+  name        = google_cloud_run_v2_service.britedge-runservice.name
   role           = "roles/run.invoker"
   member         = "allUsers"
 }
