@@ -180,3 +180,36 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = [google_compute_global_address.private_ip_allocation.name]
   depends_on = [google_compute_subnetwork.britedge-subnet]
 }
+
+# Cloud SQL Instance
+resource "google_sql_database_instance" "britedge-sql-instance" {
+  name             = "britedge-sql-instance"
+  database_version = "POSTGRES_14" 
+  region           = var.region
+  
+  settings {
+    tier = "db-g1-small"
+    ip_configuration {
+      ipv4_enabled    = false # for private
+      private_network = google_compute_network.britedge-vpc.self_link
+    }
+  }
+
+  # This ensures the VPC peering is established before creating the instance.
+  depends_on = [
+    google_service_networking_connection.private_vpc_connection
+  ]
+}
+
+# The actual database within the instance
+resource "google_sql_database" "britedge-database" {
+  name     = "britedge-database"
+  instance = google_sql_database_instance.britedge-sql-instance.name
+}
+
+# Database user for your application
+resource "google_sql_user" "britedge-user" {
+  name     = "britedge-user"
+  instance = google_sql_database_instance.britedge-sql-instance.name
+  password = var.cloudsql_password_secret
+}
