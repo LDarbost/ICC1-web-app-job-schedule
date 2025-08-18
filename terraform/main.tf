@@ -95,47 +95,61 @@ resource "google_cloudbuild_trigger" "docker_tag_build" {
   }
 }
 
-resource "google_cloud_run_service" "britedge-runservice" {
+# Cloud Run Service
+resource "google_cloud_run_v2_service" "britedge-runservice" {
   name     = "britedge-runservice"
   location = var.region
   project  = var.project_id
 
   template {
-    spec {
-      containers {
-        image = "europe-west1-docker.pkg.dev/${var.project_id}/britedge-e1/britedge-run:${var.dockertag}"
+    containers {
+      image = "europe-west1-docker.pkg.dev/${var.project_id}/britedge-e1/britedge-run:${var.dockertag}"
 
-        resources {
-          limits = {
-            memory = "512Mi"
-            cpu    = "1"
-          }
-          requests = {
-            memory = "256Mi"
-            cpu    = "0.5"
-          }
-        }
-
-        ports {
-          container_port = 8080
+      resources {
+        limits = {
+          memory = "512Mi"
+          cpu    = "1000m" # In V2, CPU is specified in millicores
         }
       }
+
+      ports {
+        container_port = 8080
+      }
+
+      # Environment variables for database connection
+      env {
+        name  = "DB_HOST"
+        value = google_sql_database_instance.britedge-sql-instance.private_ip_address
+      }
+      env {
+        name  = "DB_USER"
+        value = google_sql_user.britedge-user.name
+      }
+      env {
+        name  = "DB_PASS"
+        value = var.cloudsql_password_secret
+      }
+      env {
+        name  = "DB_NAME"
+        value = google_sql_database.britedge-database.name
+      }
+    }
+
+    vpc_access {
+      connector = google_vpc_access_connector.britedge-connector.id
+      egress    = "ALL_TRAFFIC"
     }
   }
-
-  traffic {
+   traffic {
     percent         = 100
-    latest_revision = true
   }
-
-  autogenerate_revision_name = true
 }
 
 # Grant public (allUsers) access to Cloud Run service
-resource "google_cloud_run_service_iam_member" "public_invoker" {
+resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
   project        = var.project_id
   location       = var.region
-  service        = google_cloud_run_service.britedge-runservice.name
+  name        = google_cloud_run_v2_service.britedge-runservice.name
   role           = "roles/run.invoker"
   member         = "allUsers"
 }
