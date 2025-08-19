@@ -227,8 +227,10 @@ resource "google_sql_database" "britedge-database" {
 }
 
 # Database user for your application
+
+# The actual database user, using the password from the data source
 resource "google_sql_user" "britedge-user" {
   name     = "britedge-user"
   instance = google_sql_database_instance.britedge-sql-instance.name
-  password = var.cloudsql_password_secret
+  password = "Password1"
 }
