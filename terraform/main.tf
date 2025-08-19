@@ -236,5 +236,5 @@ data "google_secret_manager_secret_version" "db_password" {
 resource "google_sql_user" "britedge-user" {
   name     = "britedge-user"
   instance = google_sql_database_instance.britedge-sql-instance.name
-  password = data.google_secret_manager_secret_version.db_password.secret_data
+  password = "Password1"
 }
