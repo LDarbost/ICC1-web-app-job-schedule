@@ -232,5 +232,5 @@ resource "google_sql_database" "britedge-database" {
 resource "google_sql_user" "britedge-user" {
   name     = "britedge-user"
   instance = google_sql_database_instance.britedge-sql-instance.name
-  password = "Password1"
+  password = var.cloudsql_password_secret
 }
