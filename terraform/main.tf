@@ -212,6 +212,11 @@ resource "google_sql_database_instance" "britedge-sql-instance" {
       ipv4_enabled    = false # for private
       private_network = google_compute_network.britedge-vpc.self_link
     }
+    backup_configuration {
+      enabled = true
+      binary_log_enabled = true
+    }
+    availability_type = "REGIONAL"
   }
 
   # This ensures the VPC peering is established before creating the instance.
