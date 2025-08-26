@@ -107,8 +107,8 @@ resource "google_cloud_run_v2_service" "britedge-runservice" {
 
       resources {
         limits = {
-          memory = "512Mi"
-          cpu    = "1000m"
+          memory = "256Mi"
+          cpu    = "500m"
         }
       }
 
